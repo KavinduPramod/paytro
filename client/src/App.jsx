@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Plans from './pages/Plans';  
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path='/Plans' element = {< Plans />} />
           <Route path='/Contact' element = {< Contact />} />
           <Route path='/About' element = {< About />} />
-
+          <Route path='/Register' element = {< Register />} />
         </Routes>
       </BrowserRouter>
     </div>
