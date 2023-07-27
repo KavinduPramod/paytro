@@ -1,32 +1,35 @@
-import React from 'react';
 import { FaUser, FaChartLine, FaPhone, FaMoneyBill, FaInfoCircle } from 'react-icons/fa';
 import logo from '../assets/logo.png';
+import React, { useState } from 'react';
+
 
 const NavBar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <a href="/Home"><img src={logo} alt="PayTro Logo" className="w-16 h-16" /></a>
       </div>
       <div className="block lg:hidden">
-        <button
-          className="flex items-center px-3 py-2 border rounded text-gray-200 border-gray-300 hover:text-white hover:border-white"
-          type="button"
-        >
-          <svg
-            className="fill-current h-3 w-3"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+          <button
+            className="flex items-center px-3 py-2 border rounded text-gray-200 border-gray-300 hover:text-white hover:border-white"
+            type="button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <title>Menu</title>
-            <path
-              d="M0 3h20v2H0zm0 6h20v2H0zm0 6h20v2H0z"
-              fillRule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
-      <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto lg:justify-end">
+            <svg
+              className="fill-current h-3 w-3"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Menu</title>
+              <path
+                d="M0 3h20v2H0zm0 6h20v2H0zm0 6h20v2H0z"
+                fillRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <div className={`w-full flex-grow lg:flex lg:items-center lg:w-auto lg:justify-end ${isMenuOpen ? 'block' : 'hidden'}`}>
         <div className="text-sm lg:flex-grow lg:text-right">
           <a
             href="/login"
