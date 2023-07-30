@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
+import NavBar from '../componemts/NavBar';
+import Footer from '../componemts/Footer';
+
 
 function Register() {
   const [formData, setFormData] = useState({
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
   });
@@ -14,20 +16,57 @@ function Register() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    // For example, you can send the form data to a server or perform validation
 
-    // After form submission, reset the form state
-    setFormData({
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
+    // Basic email validation using regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
 
-    // Reload the page after form submission
-    window.location.reload();
+    // Basic phone number validation using regular expression
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      alert('Please enter a 10-digit phone number.');
+      return;
+    }
+
+    // Check if password and confirmPassword match
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match. Please try again.');
+      return;
+    }
+
+    // Send the form data to the backend server
+    try {
+      const response = await fetch('http://localhost:5000/register', { // Update the URL here
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        // Form submitted successfully, reset the form state
+        setFormData({
+          email: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+        });
+
+        // Reload the page after form submission
+        window.location.reload();
+      } else {
+        // Handle server-side errors if needed
+        alert('An error occurred during registration. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -47,6 +86,20 @@ function Register() {
                 id="email"
                 name="email"
                 value={formData.email}
+                onChange={handleChange}
+                className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
                 onChange={handleChange}
                 className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
                 required
